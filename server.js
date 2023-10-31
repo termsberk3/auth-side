@@ -12,15 +12,13 @@ var express = require('express'),
 const mongoose = require('mongoose');
 const option = {
     socketTimeoutMS: 30000,
-    keepAlive: true,
-    reconnectTries: 30000
 };
 
 const mongoURI = process.env.MONGODB_URI;
-mongoose.connect('mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb', option).then(function(){
-    //connected successfully
+mongoose.connect('mongodb+srv://termsberk38:381998Berk!@homework-cluster.tilf3zg.mongodb.net/?retryWrites=true&w=majority', option).then(function(){
+    console.log("Connected to Mongo")
 }, function(err) {
-    //err handle
+  console.log(err)
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
