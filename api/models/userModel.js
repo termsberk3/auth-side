@@ -3,6 +3,7 @@
 var mongoose = require('mongoose'),
   bcrypt = require('bcrypt'),
   Schema = mongoose.Schema;
+const uuid = require('uuid/v4');
 
 /**
  * User Schema
@@ -19,6 +20,15 @@ var UserSchema = new Schema({
     lowercase: true,
     trim: true,
     required: true
+  },
+  userId: {
+    type: String,
+    unique: true,
+    lowercase: true,
+    trim: true,
+    default: function genUUID() {
+      uuid.v4()
+    }
   },
   hash_password: {
     type: String
