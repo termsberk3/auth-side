@@ -43,8 +43,9 @@ app.use(function(req, res) {
   res.status(404).send({ url: req.originalUrl + ' not found' })
 });
 
-app.listen(port);
+app.listen(port, () => {
+  console.log(`Auth service listening on port ${port}`)
+});
 
-console.log(' RESTful API server started on: ' + port);
 
 module.exports = app;

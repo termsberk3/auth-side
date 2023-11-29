@@ -28,17 +28,14 @@ var UserSchema = new Schema({
     trim: true,
     default: () => uuidv4()
   },
-  hash_password: {
-    type: String
+  password: {
+    type: String,
+    required: true
   },
   created: {
     type: Date,
-    default: Date.now
+    default: Date.now()
   }
 });
-
-UserSchema.methods.comparePassword = function(password) {
-  return bcrypt.compareSync(password, this.hash_password);
-};
 
 mongoose.model('User', UserSchema);

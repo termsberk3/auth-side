@@ -7,9 +7,7 @@ var mongoose = require('mongoose'),
 
 exports.register = function(req, res) {
   var newUser = new User(req.body);
-  newUser.hash_password = bcrypt.hashSync(req.body.password, 10);
   newUser.save().then(function(user) {
-    user.hash_password = undefined;
     return res.json(user);
   }).catch(function(err) {
       return res.status(400).send({
@@ -18,16 +16,28 @@ exports.register = function(req, res) {
   });
 };
 
-exports.sign_in = function(req, res) {
-  User.findOne().then(function(user) {
-    email: req.body.email
-    return res.json({ token: jwt.sign({ email: user.email, fullName: user.fullName, _id: user._id }, 'RESTFULAPIs') });
-  }).catch(function(err) {
-    if (err) throw err;
-    if (!user || !user.comparePassword(req.body.password)) {
-      return res.status(401).json({ message: 'Authentication failed. Invalid user or password.' });
-    }
-  });
+exports.login = async (req, res) => {
+
+  const {email, password} = req.body;
+  const user = await User.findOne({ email: email})
+
+  if(user === null){
+    return res.json({message: 'User not found'})
+  } else {
+      if(user.password !== password){
+        return res.json({message:"incorrect password"})
+      }
+
+      const payload = { email, name : req.body.name}
+      jwt.sign(payload, "secret", (err, token)=>{
+        if(err) return console.log(err)
+        else{
+          return res.send({token: token})
+        }
+      })
+
+  }
+
 };
 
 exports.loginRequired = function(req, res, next) {
