@@ -15,7 +15,7 @@ const option = {
 };
 
 const mongoURI = process.env.MONGODB_URI;
-mongoose.connect('mongodb+srv://termsberk38:381998Berk!@homework-cluster.tilf3zg.mongodb.net/User?retryWrites=true&w=majority', option).then(function(){
+mongoose.connect('mongodb://localhost:27017/mydb', option).then(function(){
     console.log("Connected to Mongo")
 }, function(err) {
   console.log(err)
